@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 
-class EDOPendulo:
+
+class EDOPendulo(object):
     def __init__(self, g, L, t_inicial, t_final, n_intervalos):
         self.g=g
         self.L=L
@@ -78,7 +81,8 @@ class EDOPendulo:
             i+=1        
         
         return x
-		
+
+
 theta = np.pi/24
 v = 0.
 g = 10
