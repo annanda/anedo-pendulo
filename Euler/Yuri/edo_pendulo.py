@@ -5,17 +5,17 @@ import numpy as np
 
 class EDOPendulo(object):
     def __init__(self, g, L, t_inicial, t_final, n_intervalos):
-        self.g=g
-        self.L=L
-        self.t_inicial=t_inicial
-        self.t_final=t_final
-        self.n_intervalos=n_intervalos
-        self.atualizarH()
+        self.g = g
+        self.L = L
+        self.t_inicial = t_inicial
+        self.t_final = t_final
+        self.n_intervalos = n_intervalos
+        self.atualizar_h()
         
-    def atualizarH(self):
+    def atualizar_h(self):
         self.h = (self.t_final - self.t_inicial)/float(self.n_intervalos)        
         
-    def eulerExplicitoNL(self, theta0, v0):
+    def euler_explicito_nao_linear(self, theta0, v0):
         theta = [theta0]
         v = [v0]
         t = [self.t_inicial]
@@ -31,7 +31,7 @@ class EDOPendulo(object):
         
         return np.array(t), np.array(theta), np.array(v)
     
-    def eulerImplicitoL(self, theta0, v0):
+    def euler_implicito_linear(self, theta0, v0):
         theta = [theta0]
         v = [v0]
         t = [self.t_inicial]
@@ -48,7 +48,7 @@ class EDOPendulo(object):
         
         return np.array(t), np.array(theta), np.array(v)
     
-    def eulerImplicitoNL(self, theta0, v0):
+    def euler_implicito_nao_linear(self, theta0, v0):
         theta = [theta0]
         v = [v0]
         t = [self.t_inicial]
@@ -92,9 +92,9 @@ t_final = 10.
 n_intervalos = 100
 
 edo = EDOPendulo(g, L, t_inicial, t_final, n_intervalos)
-t_explNL, p_explNL, v_explNL = edo.eulerImplicitoL(theta, v)
-t_implL, p_implL, v_implL = edo.eulerImplicitoL(theta, v)
-t_implNL, p_implNL, v_implNL = edo.eulerImplicitoNL(theta, v)
+t_explNL, p_explNL, v_explNL = edo.euler_implicito_linear(theta, v)
+t_implL, p_implL, v_implL = edo.euler_implicito_linear(theta, v)
+t_implNL, p_implNL, v_implNL = edo.euler_implicito_nao_linear(theta, v)
 
 error = np.absolute(p_implNL - p_implL)
 
