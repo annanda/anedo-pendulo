@@ -50,3 +50,20 @@ Para obter ajuda sobre os parâmetros e seus tipos, use:
 ```
  python main.py --help
 ```
+
+``` 
+Usage: main.py [OPTIONS]
+
+Options:
+  --metodo [euler_implicito_linear|euler_implicito_nao_linear|euler_explicito_nao_linear]
+                                  Nome do método desejado
+  --tempo_inicial FLOAT           Valor inicial do tempo
+  --tempo_final FLOAT             Valor final do tempo
+  --n_intervalos INTEGER          Quantidade de intervalos
+  --v_inicial FLOAT               Valor da velocidade inicial
+  --theta_inicial FLOAT           Valor inicial do angulo theta em radianos
+  --g FLOAT                       Valor da gravidade
+  --l FLOAT                       Valor do comprimento da corda do pendulo
+  --help                          Show this message and exit.
+
+```
