@@ -1,0 +1,165 @@
+%------------------------------------------------------------------------------
+% Beginning of journal.tex
+%------------------------------------------------------------------------------
+%
+% AMS-LaTeX version 2 sample file for journals, based on amsart.cls.
+%
+%        ***     DO NOT USE THIS FILE AS A STARTER.      ***
+%        ***  USE THE JOURNAL-SPECIFIC *.TEMPLATE FILE.  ***
+%
+% Replace amsart by the documentclass for the target journal, e.g., tran-l.
+%
+\documentclass{amsart}
+
+%     If your article includes graphics, uncomment this command.
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{xca}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\numberwithin{equation}{section}
+
+%    Absolute value notation
+\newcommand{\abs}[1]{\lvert#1\rvert}
+
+%    Blank box placeholder for figures (to avoid requiring any
+%    particular graphics capabilities for printing this document).
+\newcommand{\blankbox}[2]{%
+  \parbox{\columnwidth}{\centering
+%    Set fboxsep to 0 so that the actual size of the box will match the
+%    given measurements more closely.
+    \setlength{\fboxsep}{0pt}%
+    \fbox{\raisebox{0pt}[#2]{\hspace{#1}}}%
+  }%
+}
+
+\begin{document}
+
+\title{Análise do Método de Euler para o Pêndulo}
+
+%    Information for first author
+\author{Yuri de Jesus Lopes de Abreu}
+
+%    Information for second author
+\author{Annanda Dandi de Freitas Sousa}
+
+%    General info
+\date{\today}
+
+\keywords{Anáise numérica, equações diferenciais, euler}
+
+\begin{abstract}
+Este trabalho estuda a abordagem de passo único para solução da equação diferencial que modela o movimento de um pêndulo. Os método de Euler Implícito é analisado e comparado com a versão explícita, com análise também sobre a aproximação linear do ângulo do pêndulo.
+A convergência de malha e estabilidade numérica também são exploradas para esses métodos.
+\end{abstract}
+\maketitle
+
+\section{EDO do Pêndulo}
+A equação diferencial que modela o comportamento de um pêndulo é dada por:\\
+
+\begin{flushleft}
+$L \frac{\partial^2 \theta}{\partial t} = g \sin(\theta)$ \\
+\end{flushleft} \ \\
+
+Essa equação de segunda ordem pode ser decomposta no seguinte sistema de equações de primeira ordem:\\
+
+\begin{flushleft}
+$\frac{\partial p}{\partial t} = v$ \\
+$\frac{\partial v}{\partial t} = \frac{g}{L}\sin(p)$\\
+\end{flushleft} \ \\
+
+Onde $p$ representa $\theta$ na equação original e, as condições iniciais $p(0)=A$ e $v(0)=B$ são conhecidas. \\
+
+Ainda nesse sistema de equações, quando $\theta$ é muito pequeno (esse muito pequeno ainda será definido melhor adiante neste trabalho), pode-se usar o limite fundamental $\lim_{x \to 0} \frac{\sin(x)}{x}=1$. Isso muda a segunda equação do sistema acima para:\\
+\begin{flushleft}
+$\frac{\partial v}{\partial t} = \frac{g}{L}p$ \\
+\end{flushleft} \ \\
+
+\section{Método de Euler Implícito}
+O método de Euler Implícito tem a mesma forma do método explícito, exceto que $f$ é avaliada em $(x_{n+1}, y_{n+1})$ ao invés de $(x_n, y_n)$. Assim, o método é dado pela fórmula \cite{A}:\\
+\begin{flushleft}
+$y_{n+1}=y_n+hf(x_{n+1},y_{n+1})$\\
+\end{flushleft} \ \\
+
+\subsection{Aplicação na EDO do Pêndulo}
+
+Aplicando o método de Euler Implícito (EI) na EDO do Pêndulo, através do sistema de equações descrito, obtemos o sistema: \\
+
+\begin{flushleft}
+$p_{k+1}=p_k+hv_{k+1}$\\
+$v_{k+1}=v_k-h\frac{g}{L}\sin(p_{k+1})$\\
+\end{flushleft} \ \\
+
+Onde, teoricamente, $p_k$ e $v_k$ são conhecidos. A solução desse sistema pode ser feita por substituição de variáveis e aplicação do método de Newton para encontrar as raízes da equação abaixo:\\
+
+\begin{flushleft}
+$v_{k+1}=v_k-h\frac{g}{L}\sin(p_k+hv_{k+1})$ \\
+\end{flushleft} \ \\
+
+No caso em que há a apromixação linear, tem-se o sistema:\\
+
+\begin{flushleft}
+$p_{k+1}=p_k+hv_{k+1}$\\
+$v_{k+1}=v_k-h\frac{g}{L}p_{k+1}$\\
+\end{flushleft} \ \\
+
+Cuja solução é encontrada por:\\
+
+\begin{flushleft}
+$v_{k+1}=\frac{v_k - h\frac{g}{L}p_k}{1+h^2\frac{g}{L}}$ \\
+\end{flushleft} \ \\
+
+\subsection{Estabilidade Numérica}
+Uma solução de uma EDO é dita instável se pequenas mudanças arbitrárias nas condições iniciais produzem mudanças arbitrariamente grandes quando $x \rightarrow \inf$. Em análise numérica, pode-se dizer que uma solução instável também é má-condicionada. Diz-se isso, pois é muito difícil obter a solução numericamente porque os arredondamentos e erros de discretização terão o mesmo efeito que alterar as condições iniciais e, a solução aproximada tenderá a divergir para infinito \cite{A}.
+
+Nesta linha de pensamento, pode-se definir a região de estabilidade como a região do plano $z$-complexo contendo a origem, onde (pela definição do método de Euler Implícito) \cite{B}: \\
+
+\begin{flushleft}
+$|y_{k+1}| \leq |y_k|, \forall k$ \\
+\end{flushleft} \ \\
+
+Usando estas noções e definição, podemos determinar se o método de Euler Implícito é estável para a EDO do pêndulo no caso não-linear e linear. Assim, segue para o caso linear, pela definição geral do método de Euler Implícito: \\
+
+\begin{flushleft}
+$y_{k+1}=y_k + h\lambda y_k+1$, para qualquer EDO linear \\
+$y_{k+1} = \frac{1}{1-h\lambda}y_k$ \\
+Por indução, podemos dizer que: \\
+$y_{k+1} = (\frac{1}{1-h\lambda})^k y_0$ \\
+Onde, o fator de amplificação é a parte: $\frac{1}{1-h\lambda}$
+\end{flushleft} \ \\
+
+Pelas informações dadas, por \cite{A} e \cite{B}, se o fator de amplificação é maior que um quando $h \rightarrow 0$, então o método é instável. Caso contrário, o método é estável. Dado o fator acima, o limite do fator quando $h \rightarrow 0$ é 1. Portanto, o Método de Euler Implícito para EDOs lineares é estável. \\
+
+\subsection{Convergência}
+Como um método de passo único aproxima a solução por passos pequenos, é fácil ver que se o tamanho do passo tender a zero, a solução numérica iguala-se à solução analítica. Assim, podemos verificar a convergência do método comparando se o erro diminui em relação à solução analítica para passos menores. 
+
+Ainda assim, caso não tenhamos a solução análitca em mãos, podemos usar a noção de convergência quando o passo diminui. Suponha que um método converge para uma EDO. Então, para um tamanho de passo $h$ temos um erro $\xi$ e, para um tamanho de passo $\frac{h}{2}$ teremos um erro $\Xi$ tal que $\xi < \Xi$ num mesmo ponto da malha. Assim, podemos comparar as soluções e ter a confirmação da convergência do método, seja com ou sem a solução analítica à disposição. \\
+ 
+\section{Limite da Linearidade da Aproximação Linear}
+Esta seção aborda o limite da linearidade, na EDO do pêndulo, feita pela aproximação linear $\sin(\theta)\approx \theta$. \\
+A princípio, podemos encontrar para qual $\theta$ isso é verdadeira para a raiz da equação: $\sin(\theta) - \theta \leq \epsilon$, onde $\epsilon$ é o menor erro aceitável para essa aproximação. Assim, precisamos encontrar um $\theta$ tal que $\sin(\theta) - \theta - \epsilon = 0$. Por exemplo, para um erro de até $10^-5$, a raiz da equação é $\theta = -0.0391497$.
+
+Resta saber se esse resultado garante também uma aproximação cujo erro seja da mesma ordem de grandeza na EDO do pêndulo, considerando as constantes que estão associadas ao elemento da aproximação linear. Para isso, basta fazer $|a - b| \leq \epsilon$, onde $a$ e $b$ representam o $p_{k+1}$ da solução não-linear e linear, respectivamente. O mesmo sendo feito para $v_{k+1}$, nos dá a resposta desejada. \\
+
+\bibliographystyle{amsplain}
+\begin{thebibliography}{10}
+
+\bibitem {B} Ascher, U. M., \textit{Numerical Methods for Evolutionary Differential Equations,}, 2008.
+
+\bibitem {A} Golub, G. H., Ortega, J. M., \textit{Scientific Computing and Differential Equations: An Introduction to Numerical Methods}, 1992.
+
+\end{thebibliography}
+
+\end{document}
+
+%------------------------------------------------------------------------------
+% End of journal.tex
+%------------------------------------------------------------------------------
