@@ -13,7 +13,9 @@ class EDOPendulo(object):
         self.t_final = t_final
         self.v_inicial = v_inicial
         self.n_intervalos = n_intervalos
-        self.atualizar_h()
+        self.atualizar_h
+        self.primeiroChute = true
+        self.ultimoChute = 0
         
     def atualizar_h(self):
         self.h = (self.t_final - self.t_inicial)/float(self.n_intervalos)        
@@ -75,7 +77,12 @@ class EDOPendulo(object):
         return self.g * (self.h**2) * np.cos(self.h * v_next + theta)/self.L + 1.
     
     def newton(self, theta, v):
-        x = 10. #initial guess
+	
+        if self.primeiroChute == true:
+            x = 10. #initial guess
+            self.primeiroChute = false
+        else:
+		    x = self.ultimoChute
         
         i=0
         while (i<100): #100 iterations
@@ -83,6 +90,7 @@ class EDOPendulo(object):
             x = x_next
             i+=1        
         
+        self.ultimoChute = x
         return x
 
 if __name__ == '__main__':
